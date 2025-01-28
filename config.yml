@@ -1,8 +1,13 @@
 ########################################################################
-##                   Plex-Meta-Manager by Evil Tactician              ##
+##    Based on the repo for Plex-Meta-Manager by Evil Tactician       ##
 ########################################################################
 
 ## This file is a template remove the .template to use the file
+ # I'd highly recommend editing this file with a code editor.
+ # Comments are marked by '# ' (a pound sign followed by a space), followed by the text)
+ # Of most options, I give 1 example (usually in the first occurrence),v
+ # which you can copy to other, similar elements (usually lists or overlays)
+ # In many cases, I provide a direct link to the relevant Kometa wiki page so you can read up on your options.
 
 libraries: # Library mappings must have a colon (:) placed after them
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
