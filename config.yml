@@ -5,49 +5,395 @@
 ## This file is a template remove the .template to use the file
 
 libraries: # Library mappings must have a colon (:) placed after them
-  Anime:   # Must match you library that is shown within plex
-    metadata_path:
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+  Anime:
+    # reapply_overlay: true  
+    metadata_files:
+      - file: config/Monogatari.yml
+    report_path: config/missing/Anime_report.yml
+    template_variables:
+      sep_style: gray                               # use the gray separators globally for this library
+      collection_mode: hide                         # hide the collections
+      language: en                                  # could be default, de, fr, pt-br or another lang code that we have tranlsated
+      placeholder_imdb_id: tt1190634                # The Boys (2019) placeholder id for the separators
+    collection_files: # https://kometa.wiki/en/latest/defaults/collections/
       - file: config/Anime.yml
-settings: # Can be individually specified per library as well
-  cache: true
-  cache_expiration: 60
-  asset_directory: config/assets
-  asset_folders: false
-  asset_depth: 0
-  create_asset_folders: false
-  dimensional_asset_rename: false
-  download_url_assets: false
-  show_missing_season_assets: false
-  sync_mode: append
-  minimum_items: 1
-  default_collection_order: alpha
-  delete_below_minimum: true
-  delete_not_scheduled: false
-  run_again_delay: 2
-  missing_only_released: false
-  only_filter_missing: false
-  show_unmanaged: true
-  show_filtered: false
-  show_options: false
-  show_missing: false
-  show_missing_assets: false
-  save_missing: false
-  tvdb_language: eng
-  ignore_ids:
-  ignore_imdb_ids:
-  playlist_sync_to_user:
-  verify_ssl: true
-plex: # REQUIRED - see https://github.com/meisnate12/Plex-Meta-Manager/wiki/Plex-Attributes
-  url: 
-  token: 
-  timeout: 60
-  clean_bundles: false
-  empty_trash: false
-  optimize: false
-tmdb: # REQUIRED for the script to run - to get a key you must follow https://developers.themoviedb.org/3/getting-started/introduction
-  apikey: 
-  language: en
-mal: # REQUIRED for this config to work - set up by following https://github.com/meisnate12/Plex-Meta-Manager/wiki/MyAnimeList-Attributes
+      # - default: anilist                                  # AniDB Charts (Popular, Trending, etc.)
+      #   template_variables:
+      #     sonarr_add_missing_popular: false
+      #     sonarr_add_missing_airing: false
+      #     sonarr_add_missing_top: true
+      #     sonarr_add_missing_lowest: false
+      - default: franchise
+      - default: myanimelist                              # MAL Charts (Popular, Trending, etc.)
+        template_variables:
+          sonarr_add_missing_popular: true
+          sonarr_add_missing_airing: false
+          sonarr_add_missing_top: true
+          sonarr_add_missing_lowest: false
+      # - default: basic                                    # Some basic chart collections
+    overlay_files:
+      - file: config/overlays/media_info.yml    
+      - file: config/overlays/audience_rating.yml
+      # - remove_overlays: true                          # Set to true if you want to remove overlays
+      # - reset_overlays: tmdb                          # if you want to reset the poster to default poster from tmdb
+      - default: episode_info                               # SE##E## information in bottom right and works with overlay_level episode
+        template_variables:
+          overlay_level: episode
+      - default: language_count                             # blank means 1 audio language track, dual means 2, multi means > 2 and works with overlay_level show, episode, and season
+        template_variables:
+          horizontal_offset: 50
+          horizontal_align: right
+          vertical_offset: 150
+          vertical_align: bottom
+      - default: language_count
+        template_variables:
+          overlay_level: episode
+          horizontal_offset: 50
+          horizontal_align: right
+          vertical_offset: 150
+          vertical_align: bottom
+      - default: language_count
+        template_variables:
+          overlay_level: season
+          horizontal_offset: 50
+          horizontal_align: right
+          vertical_offset: 150
+          vertical_align: bottom
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          style: half
+          use_subtitles: true
+          languages:
+            - en
+            - ja
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          use_subtitles: true
+          style: half
+          use_subtitles: true
+          languages:
+            - en
+            - ja          
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          overlay_level: episode
+          style: half
+          use_subtitles: true
+          languages:
+            - en
+            - ja
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          use_subtitles: true
+          overlay_level: episode
+          style: half
+          use_subtitles: true
+          languages:
+            - en
+            - ja          
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          overlay_level: season
+          style: half
+          use_subtitles: true
+          languages:
+            - en
+            - ja          
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          use_subtitles: true
+          overlay_level: season
+          style: half
+          use_subtitles: true
+          languages:
+            - en
+            - ja          
+      - default: mediastinger                                                                 # 3
+        template_variables:
+          vertical_offset: 20%
+      - default: ratings                                    # Ratings with custom fonts matched to the style of the rating, font_size, and on the right in 'square' format. overlay_level: show has 3 ratings max
+        template_variables:
+          rating1: user
+          rating1_image: imdb
+          rating1_font: config/metadata/overlays/fonts/Handel Gothic ITC W01 Heavy.ttf
+          rating1_font_size: 63
+
+          rating2: audience
+          rating2_image: mal
+          rating2_font: config/metadata/overlays/fonts/Avenir_95_Black.ttf
+          rating2_font_size: 70
+
+          # horizontal_position: right
+          # rating_source: Anidb
+          # font: config/metadata/overlays/fonts/Handel Gothic ITC W01 Heavy.ttf
+          # rating_source: IMDb
+          # font: config/metadata/overlays/fonts/Impact.ttf
+          # rating_source: Letterboxd
+          # font: config/metadata/overlays/fonts/HelveticaNowDisplay-ExtBlk.ttf
+          # rating_source: Metacritic
+          # font: config/metadata/overlays/fonts/Myriad Bold.otf
+          # rating_source: TMDb
+          # font: config/metadata/overlays/fonts/Avenir_95_Black.ttf
+          # rating_source: Trakt
+          # font: config/metadata/overlays/fonts/Claspo-ND-Medium.ttf
+          # rating_source: Rotten
+          # font: config/metadata/overlays/fonts/Adlib.ttf
+      - default: ribbon                                   # Used for ribbon in bottom right and works with overlay_level show and season
+      - default: ribbon
+        template_variables:
+          overlay_level: season
+      - default: runtimes                                 # Runtime information in bottom right and works with overlay_level episode
+        template_variables:
+          overlay_level: episode
+      - pmm: status
+        template_variables:    
+          horizontal_align: center
+          vertical_align: top
+          vertical_offset: 0
+          horizontal_offset: 0
+          back_height: 85
+          back_width: 1100
+          font: config/overlays/fonts/Avenir_95_Black.ttf
+          font_size: 60
+          back_color_airing: "#016920"
+          back_color_returning: "#81007F"
+          back_color_canceled: "#ed1f1f"
+          back_color_ended: "#000847" 
+      - default: streaming                                # Streaming on Disney+, Netflix, etc. and works with overlay_level show, episode, and season
+      - default: streaming
+        template_variables:
+          overlay_level: episode
+      - default: streaming
+        template_variables:
+          overlay_level: season
+      - default: versions                                 # Will show duplicates for that media item and works with overlay_level show, episode, and season
+        template_variables:
+          overlay_level: episode
+      - default: versions                                 # Will show duplicates for that media item and works with overlay_level show, episode, and season
+        template_variables:
+          overlay_level: season
+      - default: versions                                 # Will show duplicates for that media item and works with overlay_level show, episode, and season
+        template_variables:
+          overlay_level: show
+      # - default: video_format                             # Remux, DVD, Blu-Ray, etc. in bottom left and works with overlay_level show, episode, and season
+      # - default: video_format
+      #   template_variables:
+      #     overlay_level: episode
+      # - default: video_format
+        # template_variables:
+        #   overlay_level: season
+      - default: languages
+    settings:
+      asset_directory:
+        - config/assets
+
+    operations:
+      split_duplicates: false
+      assets_for_all: false
+      delete_collections:             # Any manually added collection outside of default will be deleted
+        managed: false
+        configured: false
+      mass_user_rating_update: imdb         # Update user ratings with anidb
+      mass_critic_rating_update: anidb_score        # Update critic ratings with anidb
+      mass_audience_rating_update: mal              # Update audience ratings with mal
+      mass_genre_update: tmdb                       # Update all genres from tmdb
+      mass_content_rating_update: mdb_commonsense   # Changes Content Rating to "1", "2" etc. to specify appropriate age
+      mass_originally_available_update: tmdb        # Update all original available date from tmdb
+      mass_episode_critic_rating_update: imdb       # Update critic ratings with imdb for episodes
+      mass_episode_audience_rating_update: tmdb     # Update audience ratings with tmdb for episodes
+      mass_imdb_parental_labels: without_none
+      # mass_poster_update: tmdb                      # Resets posters to tmdb, plex, locked, unlock which is useful to remove all overlays when running with -r -op
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+  Anime Movies:
+    # reapply_overlay: true  
+    report_path: config/missing/Anime_Movies_report.yml
+    template_variables:
+      sep_style: gray                               # use the gray separators globally for this library
+      collection_mode: hide                         # hide the collections
+      language: en                                  # could be default, de, fr, pt-br or another lang code that we have tranlsated
+      placeholder_imdb_id: tt8579674                # The Boys (2019) placeholder id for the separators
+    collection_files:
+      - default: anilist                                  # AniDB Charts (Popular, Trending, etc.)
+        template_variables:
+          radarr_add_missing_popular: false
+          radarr_add_missing_top: true
+          radarr_add_missing_lowest: false
+      - default: studio
+      - default: myanimelist
+        template_variables:
+          radarr_add_missing_popular: true
+          radarr_add_missing_top: true
+          radarr_add_missing_lowest: false
+      # - default: imdb                       # This is a local default Default file. Usage Guide: https://metamanager.wiki/en/nightly/defaults/guide.html
+      # - default: basic                                    # Some basic chart collections
+    overlay_files:
+      - file: config/overlays/media_info.yml    
+      - file: config/overlays/audience_rating.yml
+      # - remove_overlays: true                          # Set to true if you want to remove overlays
+      # - reset_overlays: tmdb                          # if you want to reset the poster to default poster from tmdb
+      # - default: audio_codec                                # FLAC, DTS-X, TrueHD, etc. style: standard/compact. compact is default
+      # - default: audio_codec
+      #   template_variables:
+      #     overlay_level: episode
+      # - default: audio_codec
+      #   template_variables:
+      #     overlay_level: season
+      # - default: direct_play
+        # - default: direct_play
+          # template_variables:
+            # overlay_level: episode
+        # - default: direct_play
+          # template_variables:
+            # overlay_level: season
+      - default: episode_info                               # SE##E## information in bottom right and works with overlay_level episode
+        template_variables:
+          overlay_level: episode
+      - default: language_count
+        template_variables:
+          overlay_level: season
+          horizontal_offset: 50
+          horizontal_align: right
+          vertical_offset: 150
+          vertical_align: bottom
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          style: half
+          use_subtitles: true
+          languages:
+            - en
+            - ja
+      - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
+        template_variables:
+          use_subtitles: true
+          languages:
+            - en
+            - ja           
+      - default: mediastinger                                                                 # 3
+        template_variables:
+          vertical_offset: 20%
+      - default: ratings                                    # Ratings with custom fonts matched to the style of the rating, font_size, and on the right in 'square' format. overlay_level: show has 3 ratings max
+        template_variables:
+          rating1: user
+          rating1_image: imdb
+          rating1_font: config/metadata/overlays/fonts/Handel Gothic ITC W01 Heavy.ttf
+          rating1_font_size: 63
+
+          rating2: audience
+          rating2_image: mal
+          rating2_font: config/metadata/overlays/fonts/Avenir_95_Black.ttf
+          rating2_font_size: 70
+
+          horizontal_position: right
+
+          # rating_source: Anidb
+          # font: config/metadata/overlays/fonts/Handel Gothic ITC W01 Heavy.ttf
+          # rating_source: IMDb
+          # font: config/metadata/overlays/fonts/Impact.ttf
+          # rating_source: Letterboxd
+          # font: config/metadata/overlays/fonts/HelveticaNowDisplay-ExtBlk.ttf
+          # rating_source: Metacritic
+          # font: config/metadata/overlays/fonts/Myriad Bold.otf
+          # rating_source: TMDb
+          # font: config/metadata/overlays/fonts/Avenir_95_Black.ttf
+          # rating_source: Trakt
+          # font: config/metadata/overlays/fonts/Claspo-ND-Medium.ttf
+          # rating_source: Rotten
+          # font: config/metadata/overlays/fonts/Adlib.ttf
+      - default: ratings                                    # Ratings with custom fonts matched to the style of the rating, font_size, and on the right in 'square' format. overlay_level: episode has 2 ratings max
+        template_variables:
+            # rating1
+      - default: ribbon                                   # Used for ribbon in bottom right
+      - default: versions                                 # Will show duplicates for that media item and works with overlay_level show, episode, and season
+      # - default: video_format                             # Remux, DVD, Blu-Ray, etc. in bottom left
+      - default: languages
+    settings:
+      asset_directory:
+      - config/assets
+
+    operations:
+      split_duplicates: false
+      assets_for_all: false
+      delete_collections:             # Any manually added collection outside of default will be deleted
+        managed: false
+        configured: false
+      mass_user_rating_update: imdb         # Update user ratings with anidb
+      mass_critic_rating_update: anidb_score        # Update critic ratings with anidb
+      mass_audience_rating_update: mal              # Update audience ratings with mal
+      mass_genre_update: mal                        # Update all genres from tmdb
+      mass_content_rating_update: mdb_commonsense   # Changes Content Rating to "1", "2" etc. to specify appropriate age
+      mass_originally_available_update: mal         # Update all original available date from mal
+      mass_imdb_parental_labels: without_none
+      # mass_poster_update: tmdb                      # Resets posters to tmdb, plex, locked, unlock which is useful to remove all overlays when running with -r -op
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+settings: # https://kometa.wiki/en/latest/config/settings/
+  run_order:
+    - operations
+    - metadata
+    - collections
+    - overlays
+
+  # CACHE
+  cache: true # use cache or not
+  cache_expiration: 60 # in days
+  # ASSETS
+  asset_directory: config/assets # several possible
+  asset_folders: true # Individual folders for items in "asset" directory?
+  asset_depth: 2 # Specify how many folder levels to scan for an item within the asset directory
+  create_asset_folders: true # true = /movie_name/poster.png - false = /movie_name.png. Connected to asset_folders
+  prioritize_assets: false # Prefer local assets over external sources
+  dimensional_asset_rename: false # Auto rename based on dimensions
+  download_url_assets: true # Download assets from external sources
+  show_missing_season_assets: true # Reports missing assets
+  show_missing_episode_assets: true # Same but for episodes
+  show_asset_not_needed: true # Report which media does _not_ need to be updated
+  # COLLECTION SETTINGS
+  sync_mode: append # sync (follow changes) or append (add new items, don't delete old items)
+  default_collection_order: release # release (date), alpha(betically) or custom
+  minimum_items: 3 # How many items before it's considered a collection?
+  delete_below_minimum: true # Delete collection if fewer than minimum_items
+  delete_not_scheduled: false # Delete unscheduled collections
+  run_again_delay: 120 # Delay in minutes before re-running collections with run_again defined (eg send to Radarr on 1st run, process on 2nd run)
+  # FILTERS
+  missing_only_released: true # Filter out unreleased items
+  only_filter_missing: false # Only process missing items
+  # REPORTS
+  show_unmanaged: true # Show collections not managed by Kometa
+  show_unconfigured: true # Show items not configured in current Kometa run
+  show_filtered: false # Show items that were filtered out of lists
+  show_options: true # See the config options of "plex_search", "smart_filter" or "filters"
+  show_missing: true # Show which items are missing from collections
+  show_missing_assets: true # Reports missing assets
+  save_report: true # Save reports or not
+  # MISC
+  tvdb_language: en # 2 letter ISO 639-2 language code
+  ignore_ids: # tmdb / tvdb IDs to ignore
+  ignore_imdb_ids: # imdb IDs to ignore
+  item_refresh_delay: 0 # Time between refreshes. In... hours? days? Kometa wiki doesn't say
+  playlist_sync_to_users: all
+  playlist_exclude_users:
+  playlist_report: false
+  verify_ssl: false
+  custom_repo:
+  overlay_artwork_filetype: jpg # jpg, png, webp
+  overlay_artwork_quality: 75 # The default value is 75
+
+webhooks: # https://kometa.wiki/en/latest/config/webhooks/
+  error:
+  version:
+  run_start:
+  run_end:
+  changes:
+  delete:
+
+
+######### GENERATED BY TRAKTAUTH ##########
+trakt:
   client_id: 
   client_secret: 
   authorization:
@@ -55,3 +401,100 @@ mal: # REQUIRED for this config to work - set up by following https://github.com
     token_type: 
     expires_in: 
     refresh_token: 
+    scope: 
+    created_at: 
+  pin:
+############################################
+
+
+tmdb: # https://kometa.wiki/en/latest/config/tmdb/
+  apikey: 
+  language: en
+  cache_expiration: 60
+  region:
+
+# github: # https://kometa.wiki/en/latest/config/github/
+#   token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+omdb: # https://kometa.wiki/en/latest/config/omdb/
+  apikey: 
+  cache_expiration: 60
+
+mdblist: # https://kometa.wiki/en/latest/config/mdblist/
+  apikey: 
+  cache_expiration: 60
+
+plex: # https://kometa.wiki/en/latest/config/plex/
+  url: 
+  token: 
+  timeout: 60
+  db_cache:
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+  verify_ssl:
+
+# radarr: # https://kometa.wiki/en/latest/files/arr/#radarr-add-settings
+#   url: http://192.168.x.x:xxxx
+#   token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#   add_missing: false # add items missing from Collections
+#   add_existing: false # add existing items in Collections
+#   upgrade_existing: false # upgrades existing items in Collections
+#   monitor_existing: false # monitor existing items in Collections
+#   root_folder_path: /movies # root folder path as Radarr sees it
+#   monitor: false # true or false
+#   availability: released # release, announced, cinemas
+#   quality_profile: HD # whichever QP(s) you have set in Radarr
+#   tag: kometa # global tags
+#   search: false # make Radarr start searching for monitored items
+#   ignore_cache: false
+#   radarr_path:
+#   plex_path:
+
+# sonarr: #https://kometa.wiki/en/latest/files/arr/#sonarr-add-settings
+#   url: http://192.168.x.x:xxxx
+#   token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#   add_missing: false # add items missing from Collections
+#   add_existing: false # add existing items in Collections
+#   upgrade_existing: false # upgrades existing items in Collections
+#   monitor_existing: false # monitor existing items in Collections
+#   root_folder_path: /tv # root folder path as Sonarr sees it
+#   monitor: none # all, future,missing, existing, pilot, first, latest, none
+#   quality_profile: HD # as in Sonarr
+#   language_profile: English # whichever LP(s) you have set in Radarr
+#   series_type: standard # standard, daily, anime
+#   season_folder: true # use season folders or not
+#   tag: kometa
+#   search: false
+#   cutoff_search: false
+#   ignore_cache: false
+#   sonarr_path:
+#   plex_path:
+
+  # Arr add settings: https://kometa.wiki/en/latest/files/arr/#radarr-add-settings
+  # You can add items to Radarr/Sonarr in two different ways:
+  # 1. Items found by Kometa that are missing from your collections/playlists.
+  # 2. Items found by Kometa that already exist in Plex but are not in Radarr/Sonarr.
+  # (*arr_)add_missing: missing items are added.
+  # (*arr_)add_existing: existing items are added.
+
+  ########## GENERATED BY MALAUTH ##########
+mal:
+  client_id: 
+  client_secret: 
+  authorization:
+    access_token: 
+    token_type: 
+    expires_in: 
+    refresh_token: 
+  localhost_url: 
+  cache_expiration: 60
+############################################
+
+anidb:                                          # Not required for AniDB builders unless you want mature content
+  language: en
+  client: anidbplexmeta
+  version: 1
+  cache_expiration: 60
+  username: unrealtker
+  password: kZtw8BUnVKAnLW6DkJxZWgETP2Xpi5
