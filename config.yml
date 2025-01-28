@@ -75,7 +75,6 @@ libraries: # Library mappings must have a colon (:) placed after them
             - ja
       - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
         template_variables:
-          use_subtitles: true
           style: half
           use_subtitles: true
           languages:
@@ -91,7 +90,6 @@ libraries: # Library mappings must have a colon (:) placed after them
             - ja
       - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
         template_variables:
-          use_subtitles: true
           overlay_level: episode
           style: half
           use_subtitles: true
@@ -108,7 +106,6 @@ libraries: # Library mappings must have a colon (:) placed after them
             - ja          
       - default: languages                                  # Languages spoken and subtitles with associated flags and two-digit lang codes
         template_variables:
-          use_subtitles: true
           overlay_level: season
           style: half
           use_subtitles: true
@@ -193,6 +190,7 @@ libraries: # Library mappings must have a colon (:) placed after them
     settings:
       asset_directory:
         - config/assets
+
 
     operations:
       split_duplicates: false
